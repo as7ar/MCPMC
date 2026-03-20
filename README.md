@@ -17,23 +17,26 @@ git clone https://github.com/as7ar/MCPMC.git
 
 ## Usage
 
-Basic example:
+### Register Tool
 
 ```kotlin
-mcpStreamableHttp {
-    Server(
-        Implementation("MCPMC", version),
-        ServerOptions(
-            ServerCapabilities(
-                tools = ServerCapabilities.Tools(listChanged = true),
-                resources = ServerCapabilities.Resources(listChanged = true, subscribe = true),
-                logging = ServerCapabilities.Logging
-            )
+MCPMC.addTool(
+    registeredToolGenerator(
+        name = "hello",
+        description = "Simple hello tool",
+        param = mapOf(
+            "name" to SchemaType.STRING
         )
     ) {
-        addTools(MCPMC.tools)
+        val name = it.arguments["name"]?.toString() ?: "world"
+
+        CallToolResult(listOf(
+            buildJsonObject {
+                put("message", "Hello, $name")
+            }
+        ))
     }
-}
+)
 ```
 
 ## Connect
