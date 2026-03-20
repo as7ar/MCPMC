@@ -11,8 +11,12 @@ import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
 import io.modelcontextprotocol.kotlin.sdk.server.mcp
 import io.modelcontextprotocol.kotlin.sdk.types.Implementation
 import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kr.astar.mcpmc.MCPMC
+import javax.swing.UIManager.put
 
 private val main = MCPMC.plugin
 fun Application.module() {
@@ -47,6 +51,54 @@ fun Application.module() {
                     "tools" to MCPMC.tools.map { it.tool.name }
                 }
             }.toString())
+        }
+
+        route("/tools") {
+            get("/list") {
+                call.respond(buildJsonArray {
+                    MCPMC.tools.forEach {
+                        val tool = it.tool
+
+                        add(buildJsonObject {
+                            put("name", tool.name)
+                            put("description", tool.description)
+
+                            put("parameters", buildJsonObject {
+                                tool.inputSchema.properties?.forEach { (key, value) ->
+                                    put(key, buildJsonObject {
+                                        put("type", value.jsonObject["type"])
+                                    })
+                                }
+                            })
+                        })
+                    }
+                })
+            }
+
+            get("/{id}") {
+                val id = call.parameters["id"]
+                    ?: return@get call.respondText(
+                        "Tool ID required", status = io.ktor.http.HttpStatusCode.BadRequest
+                    )
+
+                val tool = MCPMC.tools.find { it.tool.name == id }
+                    ?: return@get call.respondText(
+                        "Tool not found", status = io.ktor.http.HttpStatusCode.NotFound
+                    )
+
+                call.respond(buildJsonObject {
+                    put("name", tool.tool.name)
+                    put("description", tool.tool.description)
+
+                    put("parameters", buildJsonObject {
+                        tool.tool.inputSchema.properties?.forEach { (key, value) ->
+                            put(key, buildJsonObject {
+                                put("type", value.jsonObject["type"])
+                            })
+                        }
+                    })
+                })
+            }
         }
     }
 }
