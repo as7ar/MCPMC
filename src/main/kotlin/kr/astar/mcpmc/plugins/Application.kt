@@ -13,10 +13,8 @@ import io.modelcontextprotocol.kotlin.sdk.types.Implementation
 import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import kr.astar.mcpmc.MCPMC
-import javax.swing.UIManager.put
+import kr.astar.mcpmc.utils.infoJson
 
 private val main = MCPMC.plugin
 fun Application.module() {
@@ -55,27 +53,15 @@ fun Application.module() {
 
         route("/tools") {
             get("/list") {
-                call.respond(buildJsonArray {
-                    MCPMC.tools.forEach {
-                        val tool = it.tool
-
-                        add(buildJsonObject {
-                            put("name", tool.name)
-                            put("description", tool.description)
-
-                            put("parameters", buildJsonObject {
-                                tool.inputSchema.properties?.forEach { (key, value) ->
-                                    put(key, buildJsonObject {
-                                        put("type", value.jsonObject["type"])
-                                    })
-                                }
-                            })
-                        })
+                call.respond(buildJsonObject {
+                    "code" to 200
+                    "data" to buildJsonArray {
+                        MCPMC.tools.forEach { add(it.infoJson()) }
                     }
                 })
             }
 
-            get("/{id}") {
+            get("/id/{id}") {
                 val id = call.parameters["id"]
                     ?: return@get call.respondText(
                         "Tool ID required", status = io.ktor.http.HttpStatusCode.BadRequest
@@ -87,16 +73,8 @@ fun Application.module() {
                     )
 
                 call.respond(buildJsonObject {
-                    put("name", tool.tool.name)
-                    put("description", tool.tool.description)
-
-                    put("parameters", buildJsonObject {
-                        tool.tool.inputSchema.properties?.forEach { (key, value) ->
-                            put(key, buildJsonObject {
-                                put("type", value.jsonObject["type"])
-                            })
-                        }
-                    })
+                    "code" to 200
+                    "data" to tool.infoJson()
                 })
             }
         }
