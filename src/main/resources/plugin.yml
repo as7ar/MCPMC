@@ -1,0 +1,7 @@
+name: MCPMC
+version: ${version}
+description: Minecraft MCP server library
+main: kr.astar.mcpmc.MCPMC
+api-version: '1.21'
+authors: [AS7AR]
+website: https://grassproject.github.io
