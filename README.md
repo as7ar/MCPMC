@@ -1,4 +1,5 @@
 # MCPMC
+[![](https://jitpack.io/v/as7ar/mcpmc.svg)](https://jitpack.io/#as7ar/mcpmc)
 
 Lightweight MCP (Model Context Protocol) server implementation for Minecraft plugins.
 
