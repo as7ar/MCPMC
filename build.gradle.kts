@@ -42,3 +42,8 @@ tasks.processResources {
         expand(props)
     }
 }
+
+tasks.shadowJar {
+    archiveFileName.set("MCPMC-${version}.jar")
+    mergeServiceFiles()
+}

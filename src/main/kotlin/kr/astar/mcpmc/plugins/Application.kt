@@ -1,14 +1,11 @@
 package kr.astar.mcpmc.plugins
 
-import freemarker.cache.ClassTemplateLoader
 import io.ktor.server.application.*
-import io.ktor.server.freemarker.*
 import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.modelcontextprotocol.kotlin.sdk.server.Server
 import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
-import io.modelcontextprotocol.kotlin.sdk.server.mcp
 import io.modelcontextprotocol.kotlin.sdk.server.mcpStreamableHttp
 import io.modelcontextprotocol.kotlin.sdk.types.Implementation
 import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
@@ -20,9 +17,9 @@ import kr.astar.mcpmc.utils.infoJson
 
 private val main = MCPMC.plugin
 fun Application.module() {
-    install(FreeMarker) {
+    /*install(FreeMarker) {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
-    }
+    }*/
 
     mcpStreamableHttp {
         Server(Implementation("MCPMC", main.pluginMeta.version),

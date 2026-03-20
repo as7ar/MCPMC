@@ -20,6 +20,8 @@ git clone https://github.com/as7ar/MCPMC.git
 ### Register Tool
 
 ```kotlin
+import kr.astar.mcp.MCPMC
+
 MCPMC.addTool(
     registeredToolGenerator(
         name = "hello",
@@ -27,8 +29,8 @@ MCPMC.addTool(
         param = mapOf(
             "name" to SchemaType.STRING
         )
-    ) {
-        val name = it.arguments["name"]?.toString() ?: "world"
+    ) { req ->
+        val name = req.getParam("name") ?: "world"
 
         CallToolResult(listOf(
             buildJsonObject {
