@@ -9,11 +9,13 @@ import io.ktor.server.routing.*
 import io.modelcontextprotocol.kotlin.sdk.server.Server
 import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
 import io.modelcontextprotocol.kotlin.sdk.server.mcp
+import io.modelcontextprotocol.kotlin.sdk.server.mcpStreamableHttp
 import io.modelcontextprotocol.kotlin.sdk.types.Implementation
 import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kr.astar.mcpmc.MCPMC
+import kr.astar.mcpmc.utils.Response
 import kr.astar.mcpmc.utils.infoJson
 
 private val main = MCPMC.plugin
@@ -22,11 +24,12 @@ fun Application.module() {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
 
-    mcp {
+    mcpStreamableHttp {
         Server(Implementation("MCPMC", main.pluginMeta.version),
             ServerOptions(ServerCapabilities(
                 tools = ServerCapabilities.Tools(listChanged = true),
                 resources = ServerCapabilities.Resources(listChanged = true, subscribe = true),
+                logging = ServerCapabilities.Logging
             )),
         ) {
             addTools(MCPMC.tools)
@@ -53,12 +56,12 @@ fun Application.module() {
 
         route("/tools") {
             get("/list") {
-                call.respond(buildJsonObject {
-                    "code" to 200
-                    "data" to buildJsonArray {
+                call.respond(Response(
+                    200,
+                    buildJsonArray {
                         MCPMC.tools.forEach { add(it.infoJson()) }
                     }
-                })
+                ))
             }
 
             get("/id/{id}") {
@@ -72,10 +75,7 @@ fun Application.module() {
                         "Tool not found", status = io.ktor.http.HttpStatusCode.NotFound
                     )
 
-                call.respond(buildJsonObject {
-                    "code" to 200
-                    "data" to tool.infoJson()
-                })
+                call.respond(Response(200, tool.infoJson()))
             }
         }
     }

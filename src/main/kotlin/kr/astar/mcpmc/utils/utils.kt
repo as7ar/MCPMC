@@ -2,10 +2,18 @@ package kr.astar.mcpmc.utils
 
 import io.modelcontextprotocol.kotlin.sdk.server.RegisteredTool
 import io.modelcontextprotocol.kotlin.sdk.types.CallToolRequest
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import javax.swing.UIManager.put
+
+@Serializable
+data class Response<T>(
+    val code: Int,
+    val data: T? = null,
+    val error: String? = null
+)
 
 fun CallToolRequest.getParam(param: String) = this.params.arguments?.get(param)?.jsonPrimitive?.content
 
