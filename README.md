@@ -13,8 +13,49 @@ Lightweight MCP (Model Context Protocol) server implementation for Minecraft plu
 ## Installation
 
 ```bash
-git clone https://github.com/as7ar/MCPMC.git
+> git clone https://github.com/as7ar/MCPMC.git
+
+> gradlew build
 ```
+
+## Installation (via JitPack)
+
+### 1. Add JitPack repository
+
+**Gradle (Kotlin DSL)**
+
+```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+```
+
+**Gradle (Groovy)**
+
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+
+---
+
+### 2. Add dependency
+
+```kotlin
+dependencies {
+    implementation("com.github.as7ar:MCPMC:<version>")
+}
+```
+
+---
+
+```kotlin
+dependencies {
+    implementation("com.github.as7ar:MCPMC:0.1")
+}
+```
+
 
 ## Usage
 
