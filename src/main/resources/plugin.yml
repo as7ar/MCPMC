@@ -5,8 +5,9 @@ main: kr.astar.mcpmc.MCPMC
 api-version: '1.21'
 authors: [AS7AR]
 website: https://grassproject.github.io
-libraries:
-  - io.modelcontextprotocol:kotlin-sdk:0.9.0
-  - io.ktor:ktor-serialization-kotlinx-json:3.2.3
-  - io.ktor:ktor-server-core:3.2.3
-  - io.ktor:ktor-server-netty:3.2.3
+#libraries:
+#  - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.10
+#  - io.ktor:ktor-serialization-kotlinx-json:3.2.3
+#  - io.ktor:ktor-server-core:3.2.3
+#  - io.ktor:ktor-server-netty:3.2.3
+#  - io.modelcontextprotocol:kotlin-sdk:0.9.0

@@ -22,7 +22,10 @@ git clone https://github.com/as7ar/MCPMC.git
 
 ```kotlin
 import kr.astar.mcp.MCPMC
-import io.modelcontextprotocol.kotlin.sdk.types.TextContent
+import kr.astar.mcpmc.utils.registeredToolGenerator
+import kr.astar.mcpmc.schema.SchemaType
+import kr.astar.mcpmc.utils.getParam
+import kr.astar.mcpmc.utils.*
 
 MCPMC.addTool(
     registeredToolGenerator(
@@ -34,11 +37,7 @@ MCPMC.addTool(
     ) { req ->
         val name = req.getParam("name") ?: "world"
 
-        CallToolResult(listOf(
-            buildJsonObject {
-                put("message", "Hello, $name")
-            }
-        ))
+        "Hello, $name".toToolResult()
     }
 )
 ```

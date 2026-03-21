@@ -2,7 +2,6 @@ package kr.astar.mcpmc.plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.http.content.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -10,15 +9,15 @@ import io.modelcontextprotocol.kotlin.sdk.server.Server
 import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
 import io.modelcontextprotocol.kotlin.sdk.server.mcpStreamableHttp
 import io.modelcontextprotocol.kotlin.sdk.types.*
-import io.papermc.paper.entity.PlayerGiveResult
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 import kr.astar.mcpmc.MCPMC
 import kr.astar.mcpmc.schema.SchemaType
-import kr.astar.mcpmc.utils.*
-import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
+import kr.astar.mcpmc.utils.getParam
+import kr.astar.mcpmc.utils.infoJson
+import kr.astar.mcpmc.utils.registeredToolGenerator
+import kr.astar.mcpmc.utils.toToolResult
 
 private val main = MCPMC.plugin
 
@@ -40,9 +39,7 @@ fun Application.module() {
             }
 
             if (tool == null) {
-                return@registeredToolGenerator CallToolResult(
-                    listOf(TextContent("tool not found"))
-                )
+                return@registeredToolGenerator "tool not found".toToolResult()
             }
 
             CallToolResult(

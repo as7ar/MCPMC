@@ -54,6 +54,11 @@ tasks.processResources {
 tasks.shadowJar {
     archiveFileName.set("MCPMC-${version}.jar")
     mergeServiceFiles()
+
+    relocate("io.ktor", "kr.astar.shaded.ktor")
+    /*dependencies {
+        include(dependency("io.modelcontextprotocol:kotlin-sdk:0.9.0"))
+    }*/
 }
 
 tasks.named("distZip") {
