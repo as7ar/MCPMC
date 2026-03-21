@@ -2,6 +2,8 @@ package kr.astar.mcpmc.utils
 
 import io.modelcontextprotocol.kotlin.sdk.server.RegisteredTool
 import io.modelcontextprotocol.kotlin.sdk.types.CallToolRequest
+import io.modelcontextprotocol.kotlin.sdk.types.CallToolResult
+import io.modelcontextprotocol.kotlin.sdk.types.TextContent
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
@@ -29,3 +31,5 @@ fun RegisteredTool.infoJson() = buildJsonObject {
         }
     })
 }
+
+fun String.toToolResult() = CallToolResult(listOf(TextContent(this)))

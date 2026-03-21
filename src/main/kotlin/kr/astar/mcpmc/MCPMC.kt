@@ -17,18 +17,21 @@ class MCPMC : JavaPlugin() {
 
         @JvmStatic
         fun addTool(tool: RegisteredTool) = tools.add(tool)
+
+        @JvmStatic
+        fun addTools(toolList: List<RegisteredTool>) = tools.addAll(toolList)
     }
 
     private lateinit var engine: EmbeddedServer<NettyApplicationEngine, NettyApplicationEngine.Configuration>
 
     override fun onLoad() {
         plugin = this
+        saveDefaultConfig()
     }
 
     override fun onEnable() {
-        saveDefaultConfig()
         engine= embeddedServer(
-            Netty, port = config.getInt("3000"),
+            Netty, port = config.getInt("port",3001),
             host = "0.0.0.0",
             module = Application::module
         ).start(wait = false)

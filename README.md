@@ -22,6 +22,7 @@ git clone https://github.com/as7ar/MCPMC.git
 
 ```kotlin
 import kr.astar.mcp.MCPMC
+import io.modelcontextprotocol.kotlin.sdk.types.TextContent
 
 MCPMC.addTool(
     registeredToolGenerator(
