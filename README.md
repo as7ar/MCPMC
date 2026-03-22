@@ -48,14 +48,6 @@ dependencies {
 }
 ```
 
----
-
-```kotlin
-dependencies {
-    implementation("com.github.as7ar:MCPMC:0.1")
-}
-```
-
 
 ## Usage
 
