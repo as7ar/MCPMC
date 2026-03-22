@@ -1,7 +1,7 @@
 # MCPMC
 [![](https://jitpack.io/v/as7ar/mcpmc.svg)](https://jitpack.io/#as7ar/mcpmc)
 
-Lightweight MCP (Model Context Protocol) server implementation for Minecraft plugins.
+Lightweight MCP server implementation for Minecraft plugins.
 
 ## Features
 
@@ -92,11 +92,8 @@ Use any MCP-compatible client to connect:
 - POST /mcp
 - JSON-RPC based communication
 
-## Roadmap
-
-- WebSocket support
-- Better tool lifecycle handling
-- Plugin auto-discovery
+## TODO
+[ ] WebSocket support
 
 ## License
 
