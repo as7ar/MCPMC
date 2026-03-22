@@ -22,7 +22,7 @@ Lightweight MCP server implementation for Minecraft plugins.
 
 ### 1. Add JitPack repository
 
-**Gradle (Kotlin DSL)**
+**Gradle (Kotlin)**
 
 ```kotlin
 repositories {
