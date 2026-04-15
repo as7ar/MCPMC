@@ -4,11 +4,10 @@ import io.ktor.server.application.*
 import io.modelcontextprotocol.kotlin.sdk.server.Server
 import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
 import io.modelcontextprotocol.kotlin.sdk.server.mcpWebSocket
-import io.modelcontextprotocol.kotlin.sdk.types.*
+import io.modelcontextprotocol.kotlin.sdk.types.Implementation
+import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
 import kr.astar.mcpmc.MCPMC
-import kr.astar.mcpmc.tools.MCPMCToolRegistry
 import kr.astar.mcpmc.tools.registeredTools
-import kr.astar.mcpmc.tools.toRegisteredTool
 
 fun Application.configureWebSocket() {
     mcpWebSocket {

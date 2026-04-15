@@ -3,7 +3,6 @@ package kr.astar.mcpmc
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import io.modelcontextprotocol.kotlin.sdk.server.RegisteredTool
 import kr.astar.mcpmc.ktor.module
 import org.bukkit.plugin.java.JavaPlugin
 

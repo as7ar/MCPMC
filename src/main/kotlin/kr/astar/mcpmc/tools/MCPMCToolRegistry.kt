@@ -1,9 +1,5 @@
 package kr.astar.mcpmc.tools
 
-import io.modelcontextprotocol.kotlin.sdk.server.RegisteredTool
-import io.modelcontextprotocol.kotlin.sdk.types.CallToolResult
-import io.modelcontextprotocol.kotlin.sdk.types.TextContent
-
 object MCPMCToolRegistry {
 
     private val tools = mutableListOf<MCPMCTool>()
