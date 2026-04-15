@@ -7,6 +7,8 @@ import io.modelcontextprotocol.kotlin.sdk.server.mcpWebSocket
 import io.modelcontextprotocol.kotlin.sdk.types.*
 import kr.astar.mcpmc.MCPMC
 import kr.astar.mcpmc.tools.MCPMCToolRegistry
+import kr.astar.mcpmc.tools.registeredTools
+import kr.astar.mcpmc.tools.toRegisteredTool
 
 fun Application.configureWebSocket() {
     mcpWebSocket {
@@ -20,7 +22,7 @@ fun Application.configureWebSocket() {
                 )
             )
         ) {
-            addTools(MCPMCToolRegistry.getAll())
+            addTools(registeredTools)
         }
     }
 }

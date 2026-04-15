@@ -7,20 +7,10 @@ import kr.astar.mcpmc.utils.getParam
 import kr.astar.mcpmc.utils.infoJson
 import kr.astar.mcpmc.utils.toToolResult
 import io.modelcontextprotocol.kotlin.sdk.types.*
+import kr.astar.mcpmc.ktor.tools.GiveItemTool
+import kr.astar.mcpmc.ktor.tools.MCPTestTool
+import kr.astar.mcpmc.tools.MCPMCToolRegistry
 
 fun registerTools() {
-//    MCPMC.addTools(listOf(
-//        registeredToolGenerator(
-//            name = "tool",
-//            description = "Get tool by Name",
-//            param = mapOf("name" to SchemaType.STRING)
-//        ) { req ->
-//            val tool = MCPMC.tools.find { it.tool.name == req.getParam("name") }
-//            if (tool == null) {
-//                return@registeredToolGenerator "tool not found".toToolResult()
-//            }
-//            CallToolResult(listOf(TextContent(tool.infoJson().toString())))
-//        }
-//    ))
-
+    MCPMCToolRegistry.register(MCPTestTool, GiveItemTool)
 }

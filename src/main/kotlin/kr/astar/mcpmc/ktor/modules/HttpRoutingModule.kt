@@ -11,8 +11,9 @@ import io.modelcontextprotocol.kotlin.sdk.server.Server
 import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
 import io.modelcontextprotocol.kotlin.sdk.server.mcpStreamableHttp
 import io.modelcontextprotocol.kotlin.sdk.types.*
-import kr.astar.mcpmc.MCPMC.Companion.addTool
 import kr.astar.mcpmc.tools.MCPMCToolRegistry
+import kr.astar.mcpmc.tools.registeredTools
+import kr.astar.mcpmc.tools.toRegisteredTool
 
 fun Application.configureRouting() {
     val authName = getAuthName()
@@ -30,7 +31,7 @@ fun Application.configureRouting() {
                         )
                     )
                 ) {
-                    addTools(MCPMCToolRegistry.getAll())
+                    addTools(registeredTools)
                 }
             }
         }
@@ -56,7 +57,7 @@ fun Application.configureRouting() {
                     put("version", JsonPrimitive(MCPMC.plugin.pluginMeta.version))
                     put("tools", buildJsonArray {
                         // MCPMC.tools.forEach { add(JsonPrimitive(it.tool.name)) }
-                        MCPMCToolRegistry.getAll().forEach { add(JsonPrimitive(it.tool.name)) }
+                        MCPMCToolRegistry.getAll().map { it.toRegisteredTool() }.forEach { add(JsonPrimitive(it.tool.name)) }
                     })
                 })
             })

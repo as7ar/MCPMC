@@ -6,18 +6,14 @@ import io.modelcontextprotocol.kotlin.sdk.types.TextContent
 
 object MCPMCToolRegistry {
 
-    private val tools = mutableListOf<RegisteredTool>()
+    private val tools = mutableListOf<MCPMCTool>()
 
-    @JvmStatic
-    fun register(tool: MCPMCTool) {
-        tools += tool.toRegisteredTool()
+    fun register(vararg tool: MCPMCTool) {
+        tools += tool
     }
 
-    @JvmStatic
-    fun registerAll(vararg tool: MCPMCTool) {
-        tools += tool.map { it.toRegisteredTool() }
-    }
-
-    fun getAll(): List<RegisteredTool> = tools.toList()
+    fun getAll(): List<MCPMCTool> = tools
 }
 
+val registeredTools = MCPMCToolRegistry.getAll()
+    .map { it.toRegisteredTool() }
