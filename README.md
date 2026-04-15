@@ -84,9 +84,6 @@ Use any MCP-compatible client to connect:
 - POST /mcp
 - JSON-RPC based communication
 
-## TODO
-[ ] WebSocket support
-
 ## License
 
 MIT

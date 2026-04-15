@@ -1,2 +1,15 @@
 port: 3001
 enable-log: false
+
+oauth:
+  enable: false
+  authorizeUrl: "https://accounts.google.com/o/oauth2/auth"
+  accessTokenUrl: "https://oauth2.googleapis.com/token"
+  requestMethod: POST
+  clientId: ""
+  clientSecret: ""
+  scope:
+    - "email"
+
+bearer:
+  enable: true

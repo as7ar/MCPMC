@@ -4,7 +4,7 @@ description: Minecraft MCP server library
 main: kr.astar.mcpmc.MCPMC
 api-version: '1.21'
 authors: [AS7AR]
-website: https://grassproject.github.io
+website: https://discord.gg/BCqWwvr888
 #libraries:
 #  - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.10
 #  - io.ktor:ktor-serialization-kotlinx-json:3.2.3

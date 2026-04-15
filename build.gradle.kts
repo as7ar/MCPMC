@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "kr.astar"
-version = "0.1"
+version = "0.1.1"
 
 application {
     mainClass.set("kr.astar.mcpmc.MCPMCKt")
@@ -25,15 +25,16 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("io.modelcontextprotocol:kotlin-sdk:0.9.0")
+    implementation("io.modelcontextprotocol:kotlin-sdk:0.11.1")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-content-negotiation")
     implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-netty")
+    implementation("io.ktor:ktor-server-auth")
 }
 
-val targetJavaVersion = 21
+val targetJavaVersion = 25
 kotlin {
     jvmToolchain(targetJavaVersion)
 }
