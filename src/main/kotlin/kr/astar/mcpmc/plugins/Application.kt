@@ -1,18 +1,10 @@
 package kr.astar.mcpmc.plugins
 
-import io.ktor.client.HttpClient
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
+import io.ktor.client.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.Authentication
-import io.ktor.server.auth.OAuthAccessTokenResponse
-import io.ktor.server.auth.OAuthServerSettings
-import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.authentication
-import io.ktor.server.auth.bearer
-import io.ktor.server.auth.oauth
-import io.ktor.server.auth.principal
+import io.ktor.server.auth.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -111,23 +103,27 @@ fun Application.module() {
         }
     }
 
-    mcpStreamableHttp {
-        Server(
-            Implementation("MCPMC", main.pluginMeta.version),
-            ServerOptions(
-                ServerCapabilities(
-                    tools = ServerCapabilities.Tools(listChanged = true),
-//                    resources = ServerCapabilities.Resources(listChanged = true, subscribe = true),
-                    logging = if (MCPMC.plugin.config.getBoolean("enable-log", false))
-                        ServerCapabilities.Logging else null
-                )
-            )
-        ) {
-            addTools(MCPMC.tools)
-        }
-    }
     routing {
-//        staticFiles("/static", main.dataFolder)
+        authenticate(
+            if (enabledAuth) "mcpmc-oauth"
+            else if (enabledBearer) "mcpmc-bearer"
+            else null
+        ) {
+            mcpStreamableHttp {
+                Server(
+                    Implementation("MCPMC", main.pluginMeta.version),
+                    ServerOptions(
+                        ServerCapabilities(
+                            tools = ServerCapabilities.Tools(listChanged = true),
+                            logging = if (MCPMC.plugin.config.getBoolean("enable-log", false))
+                                ServerCapabilities.Logging else null
+                        )
+                    )
+                ) {
+                    addTools(MCPMC.tools)
+                }
+            }
+        }
 
         get("/status") {
             call.respond(

@@ -1,10 +1,10 @@
 package kr.astar.mcpmc.auth
 
+import kr.astar.mcpmc.MCPMC
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.security.SecureRandom
-import java.util.Base64
-import kr.astar.mcpmc.MCPMC
+import java.util.*
 
 object BearerToken {
     private val random = SecureRandom()
