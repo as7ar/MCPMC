@@ -88,6 +88,12 @@ fun Application.module() {
         },
     ))
 
+    val authName = when {
+        enabledAuth -> "mcpmc-oauth"
+        enabledBearer -> "mcpmc-bearer"
+        else -> null
+    }
+
     mcpWebSocket {
         Server(
             Implementation("MCPMC", main.pluginMeta.version),
