@@ -1,3 +1,3 @@
 rootProject.name = "MCPMC"
 
-include("mcp_test")
+//include("mcp_test")

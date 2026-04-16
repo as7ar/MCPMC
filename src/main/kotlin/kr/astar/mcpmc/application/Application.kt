@@ -1,17 +1,28 @@
-package kr.astar.mcpmc.ktor.modules
+package kr.astar.mcpmc.application
 
 import io.ktor.client.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.modelcontextprotocol.kotlin.sdk.types.McpJson
 import kr.astar.mcpmc.MCPMC
+import kr.astar.mcpmc.application.modules.configureRouting
+import kr.astar.mcpmc.application.modules.mcpStreaming
+import kr.astar.mcpmc.application.tools.MCPTestTool
 import kr.astar.mcpmc.auth.BearerToken
+import kr.astar.mcpmc.tools.MCPMCRegistry
 
 private val main = MCPMC.plugin
 private val enabledAuth = main.config.getBoolean("auth.enable", false)
 private val enabledBearer = main.config.getBoolean("bearer.enable", true)
 
-fun Application.configureAuth() {
+fun Application.module() {
+    install(ContentNegotiation) {
+        json(McpJson)
+    }
+
     install(Authentication) {
         if (enabledAuth) {
             oauth("mcpmc-oauth") {
@@ -44,6 +55,13 @@ fun Application.configureAuth() {
             }
         }
     }
+
+    mcpStreaming()
+    configureRouting()
+
+    MCPMCRegistry.register(
+        MCPTestTool
+    )
 }
 
 fun getAuthName(): String? = when {
