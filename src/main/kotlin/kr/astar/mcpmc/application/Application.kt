@@ -24,32 +24,34 @@ fun Application.module() {
     }
 
     install(Authentication) {
-        if (enabledAuth) {
-            oauth("mcpmc-oauth") {
-                urlProvider = { "http://localhost:${main.config.getInt("port", 3001)}/callback" }
-                providerLookup = {
-                    OAuthServerSettings.OAuth2ServerSettings(
-                        name = "mcpmc-oauth",
-                        authorizeUrl = main.config.getString("oauth.authorizeUrl") ?: "",
-                        accessTokenUrl = main.config.getString("oauth.accessTokenUrl") ?: "",
-                        requestMethod = HttpMethod.parse(main.config.getString("oauth.requestMethod") ?: ""),
-                        clientId = main.config.getString("oauth.clientId") ?: "",
-                        clientSecret = main.config.getString("oauth.clientSecret") ?: "",
-                        defaultScopes = main.config.getStringList("oauth.scope")
-                    )
+        when(getAuthName()) {
+            "mcpmc-oauth"-> {
+                oauth("mcpmc-oauth") {
+                    urlProvider = { "http://localhost:${main.config.getInt("port", 3001)}/callback" }
+                    providerLookup = {
+                        OAuthServerSettings.OAuth2ServerSettings(
+                            name = "mcpmc-oauth",
+                            authorizeUrl = main.config.getString("oauth.authorizeUrl") ?: "",
+                            accessTokenUrl = main.config.getString("oauth.accessTokenUrl") ?: "",
+                            requestMethod = HttpMethod.parse(main.config.getString("oauth.requestMethod") ?: ""),
+                            clientId = main.config.getString("oauth.clientId") ?: "",
+                            clientSecret = main.config.getString("oauth.clientSecret") ?: "",
+                            defaultScopes = main.config.getStringList("oauth.scope")
+                        )
+                    }
+                    client = HttpClient()
                 }
-                client = HttpClient()
             }
-        }
 
-        if (enabledBearer) {
-            bearer("mcpmc-bearer") {
-                authenticate { tokenCre ->
-                    val token = tokenCre.token
-                    if (BearerToken.validate(token)) {
-                        null
-                    } else {
-                        UserIdPrincipal("mcpmc-${BearerToken.getType(token)?.name?.lowercase() ?: return@authenticate null}")
+            "mcpmc-bearer"-> {
+                bearer("mcpmc-bearer") {
+                    authenticate { tokenCre ->
+                        val token = tokenCre.token
+                        if (BearerToken.validate(token)) {
+                            null
+                        } else {
+                            UserIdPrincipal("mcpmc-${BearerToken.getType(token)?.name?.lowercase() ?: return@authenticate null}")
+                        }
                     }
                 }
             }

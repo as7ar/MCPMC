@@ -13,3 +13,8 @@ oauth:
 
 bearer:
   enable: true
+
+  token-generator:
+    # disable to change "-"
+    path: "/token-generate"
+    token-type: "USER"

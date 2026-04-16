@@ -19,6 +19,14 @@ class MCPMC : JavaPlugin() {
 
         @JvmStatic
         fun addTools(toolList: List<RegisteredTool>) = tools.addAll(toolList)
+
+        @JvmStatic
+        fun reload() {
+            try {
+                plugin.reloadConfig()
+                MCPMC().engine.reload()
+            } catch (e: Exception) { e.printStackTrace() }
+        }
     }
 
     private lateinit var engine: EmbeddedServer<NettyApplicationEngine, NettyApplicationEngine.Configuration>

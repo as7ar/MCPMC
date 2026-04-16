@@ -10,6 +10,7 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kr.astar.mcpmc.MCPMC
 import kr.astar.mcpmc.application.getAuthName
+import kr.astar.mcpmc.auth.BearerToken
 
 fun Application.configureRouting() {
     val authName = getAuthName()
@@ -38,11 +39,18 @@ fun Application.configureRouting() {
         get("/callback") {
             val principal = call.principal<OAuthAccessTokenResponse.OAuth2>()
             if (principal != null) {
-                call.respondText("{\"code\": ${HttpStatusCode.OK.value}, \"token\": \"${principal.accessToken}\"}")
+                call.respondText("{\"code\": ${HttpStatusCode.OK.value}, \"code\": \"${principal.accessToken}\"}")
             } else {
-                call.respondText("{\"code\": ${HttpStatusCode.Unauthorized.value}, \"token\": \"${null}\"}", status = HttpStatusCode.Unauthorized)
+                call.respondText("{\"code\": ${HttpStatusCode.Unauthorized.value}, \"code\": ${null}}", status = HttpStatusCode.Unauthorized)
             }
         }
 
+        val tokenPath=MCPMC.plugin.config.getString("bearer.token-generator.path") ?: "-"
+        val tokenType = MCPMC.plugin.config.getString("bearer.token-generator.token-type") ?: "USER"
+        if (tokenPath!="-") get(tokenPath) {
+            call.respondText("{\"code\":${HttpStatusCode.OK.value},\"token\": \"${BearerToken.generate(
+                BearerToken.TokenType.valueOf(tokenType)
+            )}\"}", ContentType.Text.Plain)
+        }
     }
 }
