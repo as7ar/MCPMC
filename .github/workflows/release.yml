@@ -1,0 +1,46 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'build.gradle.kts'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version
+        run: |
+          VERSION=$(grep '^version' build.gradle.kts | sed -E 's/.*"(.*)".*/\1/')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Check tag exists
+        run: |
+          if git ls-remote --tags origin | grep "refs/tags/v$VERSION"; then
+            echo "Tag exists. Exit."
+            exit 0
+          fi
+
+      - name: Set git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+      - name: Create tag
+        run: |
+          git tag $VERSION
+          git push origin $VERSION
+
+      - name: Build
+        run: ./gradlew build
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.VERSION }}
+          files: build/libs/*.jar
