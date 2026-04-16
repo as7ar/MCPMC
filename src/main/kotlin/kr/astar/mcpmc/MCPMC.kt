@@ -12,10 +12,10 @@ class MCPMC : JavaPlugin() {
         @JvmStatic
         lateinit var plugin: MCPMC
             private set
-
         internal val tools = mutableListOf<RegisteredTool>()
+
         @JvmStatic
-        fun addTool(tool: RegisteredTool) = tools.add(tool)
+        fun addTool(vararg tool: RegisteredTool) = tools.addAll(tool)
 
         @JvmStatic
         fun addTools(toolList: List<RegisteredTool>) = tools.addAll(toolList)
