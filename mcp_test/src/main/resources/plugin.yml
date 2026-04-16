@@ -1,6 +1,6 @@
-name: mcp_test
+name: mcpTest
 version: '1.2.1'
-main: kr.astar.mcp_test.Mcp_test
+main: kr.astar.mcptest.McpTest
 api-version: '1.21'
 authors: [AS7AR]
-website: https://grassproject.github.io
+website: https://discord.gg/BCqWwvr888

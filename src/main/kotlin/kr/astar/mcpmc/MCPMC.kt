@@ -4,7 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.modelcontextprotocol.kotlin.sdk.server.RegisteredTool
-import kr.astar.mcpmc.plugins.module
+import kr.astar.mcpmc.application.module
 import org.bukkit.plugin.java.JavaPlugin
 
 class MCPMC : JavaPlugin() {
@@ -14,7 +14,6 @@ class MCPMC : JavaPlugin() {
             private set
 
         internal val tools = mutableListOf<RegisteredTool>()
-
         @JvmStatic
         fun addTool(tool: RegisteredTool) = tools.add(tool)
 
@@ -30,7 +29,7 @@ class MCPMC : JavaPlugin() {
     }
 
     override fun onEnable() {
-        engine= embeddedServer(
+        engine = embeddedServer(
             Netty, port = config.getInt("port",3001),
             host = "0.0.0.0",
             module = Application::module
@@ -38,13 +37,7 @@ class MCPMC : JavaPlugin() {
     }
 
     override fun onDisable() {
-        try {
-            if (::engine.isInitialized) {
-                engine.stop(
-                    1000,
-                    5000
-                )
-            }
-        } catch (e: NoClassDefFoundError) { return }
+        if (::engine.isInitialized) engine.stop(1000, 5000)
     }
 }
+

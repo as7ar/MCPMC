@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.3.10"
+    kotlin("jvm") version "2.3.0"
     id("com.gradleup.shadow") version "8.3.0"
 }
 
@@ -17,18 +17,22 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("io.ktor:ktor-serialization-kotlinx-json")
-    implementation("io.modelcontextprotocol:kotlin-sdk:0.9.0")
+    // implementation("io.ktor:ktor-serialization-kotlinx-json")
+    implementation("io.modelcontextprotocol:kotlin-sdk:0.11.1")
     implementation(project(":"))
 }
 
-val targetJavaVersion = 21
+val targetJavaVersion = 25
 kotlin {
     jvmToolchain(targetJavaVersion)
 }
 
 tasks.build {
     dependsOn("shadowJar")
+}
+
+tasks.shadowJar {
+//    dependsOn(":shadowJar")
 }
 
 tasks.processResources {

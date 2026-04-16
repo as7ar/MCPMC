@@ -1,7 +1,8 @@
 plugins {
-    kotlin("jvm") version "2.3.10"
+    kotlin("jvm") version "2.3.0"
     id("com.gradleup.shadow") version "8.3.0"
     id("io.ktor.plugin") version "3.2.3"
+    `maven-publish`
 }
 
 group = "kr.astar"

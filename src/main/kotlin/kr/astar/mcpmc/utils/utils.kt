@@ -33,3 +33,4 @@ fun RegisteredTool.infoJson() = buildJsonObject {
 }
 
 fun String.toToolResult() = CallToolResult(listOf(TextContent(this)))
+fun notFoundTool(string: String) = CallToolResult(listOf(TextContent(string)))
